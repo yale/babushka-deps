@@ -56,7 +56,21 @@ dep "configured macvim" do
 end
 
 
+
 dep 'rvm' do
+  requires 'rvm base', 'rvm globals'# , 'rvm default'
+end
+
+
+def rvm_script
+  "source ~/.rvm/scripts/rvm;"
+end
+
+def rvm_run cmd
+  `#{rvm_script}#{cmd}`
+end
+
+dep 'rvm base' do
   met? {
     "~/.rvm/scripts/rvm".p.file?
   }
@@ -72,13 +86,6 @@ dep 'rvm globals' do
   define_var :rubyies, :default => "ruby-1.9.2", :message => "which rubies do you want to create? (seperate by ,)"
   define_var :gems, :default => "bundler, rake, gemedit, powder", :message => "which gems do you want to install into global? (seperate by ,)"
 
-  def rvm_script
-    "source ~/.rvm/scripts/rvm;"
-  end
-
-  def rvm_run cmd
-    shell rvm_script + cmd
-  end
 
   def rubies
     var(:rubies).split(/ *, */)
