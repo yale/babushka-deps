@@ -1,8 +1,8 @@
-dep "mysystem" do
-  requires 'myzsh'
+dep "rwsys" do
+  requires 'rwzsh'
 end
 
-dep "myzsh" do
+dep "rwzsh" do
   
   met? {"~/.oh-my-zsh".p.exists?}
 
