@@ -51,5 +51,6 @@ dep "configured macvim" do
     
     log_shell "building", "cd ~/.vim/bundle/Command-T/ruby/command-t;ruby extconf.rb;make"
     shell "ln -sf ~/.vim/vimrc ~/.vimrc"
+    shell "ln -sf ~/.vim/gvimrc ~/.gvimrc"
   end
 end
