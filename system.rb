@@ -1,9 +1,9 @@
 dep "rw sys" do
-  requires 'rw zsh', "rw git"
+  requires 'configured zsh', "configured git", "macvim"
 end
 
-dep "rw git" do
-  requires "rw dotfiles", "git"
+dep "configured git" do
+  requires "git"
   
   met? {"~/.gitconfig".p.exists?}
   meet do
@@ -11,8 +11,8 @@ dep "rw git" do
   end
 end
 
-dep "rw zsh" do
-  requires 'rw dotfiles', 'benhoskings:zsh', "rw oh-my-zsh"
+dep "configured zsh" do
+  requires 'rw dotfiles', 'benhoskings:zsh', "oh-my-zsh"
   
   met?{"~/.zshrc".p.exists?}
   meet do
@@ -28,7 +28,7 @@ dep "rw dotfiles" do
   end
 end
 
-dep "rw oh-my-zsh" do
+dep "oh-my-zsh" do
   met? {"~/.oh-my-zsh".p.exists?}
   meet do
       shell "git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh"
