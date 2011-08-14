@@ -1,5 +1,12 @@
 dep "rw sys" do
-  requires 'configured zsh', "configured git", "configured macvim"
+  requires 'configured zsh', "configured git", "configured macvim", 'pow'
+end
+
+dep "pow" do
+  met?{"~/.pow".p.exists?}
+  meet do
+    shell "curl get.pow.cx | sh"
+  end
 end
 
 dep "configured git" do
