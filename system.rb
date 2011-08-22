@@ -6,8 +6,8 @@ end
 dep "user in wheel group" do
   define_var :user, :default => shell("whoami"), :message => "Which user do you want to add to the wheel group?"
 
-  met?{shell("groups")[/(^| )wheel($| )/]}
-  meet{shell "usermod -a -G wheel #{var(:user)}"}
+  met?{shell("dscl . read /Groups/wheel GroupMembership", :sudo => true)[/(^| )#{var(:user)}($| )/]}
+  meet{shell "dscl . append /Groups/wheel GroupMembership #{var(:user)}", :sudo => true}
 end
 
 dep "locate daemon running" do
