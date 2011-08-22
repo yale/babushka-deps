@@ -1,5 +1,6 @@
 dep "rw sys" do
-  requires 'configured zsh', "configured git", "configured macvim", 'pow', "user in wheel group"
+  requires 'configured zsh' 
+  requires "configured git", "configured macvim", 'pow', "user in wheel group", "locate daemon running", :on => :osx
 end
 
 dep "user in wheel group" do
@@ -7,6 +8,13 @@ dep "user in wheel group" do
 
   met?{shell("groups")[/(^| )wheel($| )/]}
   meet{shell "usermod -a -G wheel #{var(:user)}"}
+end
+
+dep "locate daemon running" do
+  met? {shell("launchctl list", :sudo => true)[/com.apple.locate/]}
+  meet do
+    log_shell "starting locate daemon", "launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist", :sudo => true
+  end
 end
 
 dep "pow" do
