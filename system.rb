@@ -58,7 +58,10 @@ dep "oh-my-zsh" do
 end
 
 dep "configured vim" do
-  requires "macvim", :on => :osx
+  on :osx do
+    requires "macvim"
+  end
+
   requires "vim"
 
   met? { "~/.vim/".p.exists? }
