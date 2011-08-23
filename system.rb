@@ -63,7 +63,7 @@ dep "configured vim" do
 
   met? { "~/.vim/".p.exists? }
   meet do
-    log_shell "cloning dotvim", "git clone https://rweng@github.com/rweng/dotvim.git ~/.vim"
+    log_shell "cloning dotvim", "git clone http://github.com/rweng/dotvim.git ~/.vim"
     log_shell "cloning vundle", "git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
 
     # this doesn't work, blocks, so please do it manually
