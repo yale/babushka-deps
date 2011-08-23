@@ -35,7 +35,7 @@ end
 
 dep "configured zsh" do
   requires 'rw dotfiles', 'benhoskings:zsh', "oh-my-zsh", 'ack'
-  set :username, `whoami`
+  set :username, shell("whoami")
 
   met?{"~/.zshrc".p.exists?}
   meet do
