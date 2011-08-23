@@ -1,6 +1,8 @@
 dep "rw sys" do
   requires 'configured zsh' 
-  requires "configured git", "configured vim", 'pow', "user in wheel group", "locate daemon running", :on => :osx
+  on :osx do
+    requires "configured git", "configured vim", 'pow', "user in wheel group", "locate daemon running"
+  end
 end
 
 dep "user in wheel group" do
