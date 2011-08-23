@@ -1,7 +1,7 @@
 dep "rw sys" do
-  requires 'configured zsh' 
+  requires 'configured zsh', "configured vim"
   on :osx do
-    requires "configured git", "configured vim", 'pow', "user in wheel group", "locate daemon running"
+    requires "configured git", 'pow', "user in wheel group", "locate daemon running"
   end
 end
 
