@@ -1,6 +1,6 @@
 dep "rw sys" do
   requires 'configured zsh' 
-  requires "configured git", "configured macvim", 'pow', "user in wheel group", "locate daemon running", :on => :osx
+  requires "configured git", "configured vim", 'pow', "user in wheel group", "locate daemon running", :on => :osx
 end
 
 dep "user in wheel group" do
@@ -57,8 +57,9 @@ dep "oh-my-zsh" do
   end
 end
 
-dep "configured macvim" do
-  requires "macvim"
+dep "configured vim" do
+  requires "macvim", :on => :osx
+  requires "vim"
 
   met? { "~/.vim/".p.exists? }
   meet do

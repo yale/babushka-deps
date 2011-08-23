@@ -3,3 +3,4 @@ dep 'macvim', :template => 'managed' do
 end
 
 dep 'ack', :template => 'managed'
+dep 'vim', :template => 'managed'
