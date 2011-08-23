@@ -62,7 +62,7 @@ dep "configured vim" do
     requires "macvim"
   end
 
-  requires "vim"
+  requires "vim", "exuberant-ctags"
 
   met? { "~/.vim/".p.exists? }
   meet do

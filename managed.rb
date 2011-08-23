@@ -4,3 +4,4 @@ end
 
 dep 'ack', :template => 'managed'
 dep 'vim', :template => 'managed'
+dep 'exuberant-ctags', :template => 'managed'
