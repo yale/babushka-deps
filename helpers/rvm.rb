@@ -1,3 +1,5 @@
+include ShellHelpers
+
 def rvm_script
     "source ~/.rvm/scripts/rvm;"
 end
