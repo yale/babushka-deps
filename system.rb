@@ -5,6 +5,21 @@ dep "rw sys" do
   end
 end
 
+dep "sh is bash" do
+  setup do
+    requires 'bash.managed' unless which("bash")
+  end
+
+  met? do
+     "/bin/sh".p.symlink? and "/bin/sh".p.readlink == which("bash")
+  end 
+
+  meet do
+    shell "rm -rf /bin/sh", :sudo => true
+    shell "ln -s #{which("bash")} /bin/sh", :sudo => true, :perms => 555
+  end
+end
+
 dep "user in wheel group" do
   define_var :user, :default => shell("whoami"), :message => "Which user do you want to add to the wheel group?"
 
