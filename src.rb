@@ -7,14 +7,15 @@ dep 'vim.src' do
   setup do
     @ruby_support = confirm("ruby support?")
     @clipboard_support = confirm("clipboard support?")
-    requires 'rvm configured' if @ruby_support
+    # requires 'rvm configured' if @ruby_support
+    require 'ruby.managed' if @ruby_support
     configure_args "--enable-clipboard=yes --enable-xterm_clipboard=yes" if @clipboard_support
   end
 
   before do
-    if @ruby_support 
-      rvm_run "rvm install 1.9.2"
-      rvm_run "rvm use 1.9.2"
+    if @ruby_support  and rvm_installed?
+      # rvm_run "rvm install 1.9.2"
+      rvm_run "rvm use system"
       shell("unalias ruby") if which("alias") and which("unalias") and shell("alias").match(/^ruby=/)
     end
     true
@@ -28,11 +29,9 @@ dep 'vim.src' do
 
 
   after do
-    if var(:ruby_support)
-      if File.exists? '/usr/bin/vim'
-        log_shell "moving /usr/bin/vim to vim.bak", "mv /usr/bin/vim /usr/bin/vim.bak", :sudo => true
-      end
-      log_shell "linking vim to /usr/bin/vim", "ln -s /usr/local/bin/vim /usr/bin/vim", :sudo => true
+    if File.exists? '/usr/bin/vim'
+      log_shell "moving /usr/bin/vim to vim.bak", "mv /usr/bin/vim /usr/bin/vim.bak", :sudo => true
     end
+    log_shell "linking vim to /usr/bin/vim", "ln -s /usr/local/bin/vim /usr/bin/vim", :sudo => true
   end
 end
