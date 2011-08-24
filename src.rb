@@ -22,9 +22,13 @@ dep 'vim.src' do
   end
 
   met? do
-    ruby_satisfied = @ruby_support ? shell('vim --version')["+ruby"] : true
-    clipboard_satisfied = @clipboard_support ? shell('vim --version')['+clipboard'] : true
-    in_path? and ruby_satisfied and clipboard_satisfied
+    # if vim is installed, check if the correct version is installed
+    if which("vim")
+      ruby_satisfied = @ruby_support ? shell('vim --version')["+ruby"] : true
+      clipboard_satisfied = @clipboard_support ? shell('vim --version')['+clipboard'] : true
+      in_path? and ruby_satisfied and clipboard_satisfied
+    else
+      false
   end
 
 
