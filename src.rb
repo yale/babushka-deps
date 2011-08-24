@@ -29,6 +29,7 @@ dep 'vim.src' do
       in_path? and ruby_satisfied and clipboard_satisfied
     else
       false
+    end
   end
 
 
