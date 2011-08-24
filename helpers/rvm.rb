@@ -7,7 +7,7 @@ def rvm_installed?
 end
 
 def rvm_run cmd
-    shell(rvm_script + cmd)
+    log_shell("rvm_run: #{cmd}", rvm_script + cmd)
 end
 
 def current_rubies

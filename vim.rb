@@ -1,4 +1,3 @@
-require File.expand_path("../helpers/rvm.rb", __FILE__)
 dep "configured vim" do
   requires "vim.src", "exuberant-ctags"
 
@@ -27,27 +26,24 @@ dep 'vim.src' do
   setup do
     @ruby_support = confirm("ruby support?")
     @clipboard_support = confirm("clipboard support?")
-    
-    # on :osx do
-    #   requires 'rvm configured' if @ruby_support
-    # end
-    # on :linux do
+  
+		# on osx, ruby is assumed
+		on :linux do
       requires 'ruby' if @ruby_support
-    # end
+    end
 
     configure_args "--enable-clipboard=yes --enable-xterm_clipboard=yes" if @clipboard_support
   end
 
   before do
     if @ruby_support  and rvm_installed?
-      # on :osx do
-      #   rvm_run "rvm install 1.9.2"
-      #   rvm_run "rvm use 1.9.2"
-      # end
-      # on :linux do
-        rvm_run "rvm system" if rvm_installed?
-      # end
-      puts rvm_run("rvm current")
+			# set rvm to system if rvm is installed
+			if "~/.rvm".p.exists?
+				$LOAD_PATH.unshift("~/.rvm/lib")
+				require 'rvm'
+				RVM.use "system"
+			end
+
       shell("unalias ruby") if which("alias") and which("unalias") and shell("alias").match(/^ruby=/)
     end
     true
@@ -73,3 +69,11 @@ dep 'vim.src' do
   end
 end
 
+dep "removed vim" do
+	met? {!which("vim")}
+	meet do
+		while which ("vim") do
+			shell "rm -rf #{which "vim"}", :sudo => true
+		end
+	end
+end
