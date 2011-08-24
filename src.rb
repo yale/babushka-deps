@@ -8,7 +8,7 @@ dep 'vim.src' do
     @ruby_support = confirm("ruby support?")
     @clipboard_support = confirm("clipboard support?")
     # requires 'rvm configured' if @ruby_support
-    require 'ruby.managed' if @ruby_support
+    requires 'ruby.managed' if @ruby_support
     configure_args "--enable-clipboard=yes --enable-xterm_clipboard=yes" if @clipboard_support
   end
 
