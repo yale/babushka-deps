@@ -1,7 +1,7 @@
 require File.expand_path("../helpers/rvm.rb", __FILE__)
 
 dep 'rvm' do
-  requires 'rvm base', 'rvm globals', 'rvm default'
+  requires 'sh is bash', 'rvm base', 'rvm globals', 'rvm default'
 end
 
 
