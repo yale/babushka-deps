@@ -1,4 +1,4 @@
-dep 'fixed: admins can sudo' do
+dep 'fixed admins can sudo' do
   requires 'admin group', 'sudo'
 
   def admin_line
