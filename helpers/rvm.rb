@@ -3,5 +3,5 @@ def rvm_script
 end
 
 def rvm_run cmd
-    `#{rvm_script}#{cmd}`
+    shell(rvm_script + cmd)
 end
