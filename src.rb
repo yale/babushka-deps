@@ -7,7 +7,7 @@ dep 'vim.src' do
   setup do
     @ruby_support = confirm("ruby support?")
     @clipboard_support = confirm("clipboard support?")
-    requires 'rvm' if @ruby_support
+    requires 'rvm configured' if @ruby_support
     configure_args "--enable-clipboard=yes --enable-xterm_clipboard=yes" if @clipboard_support
   end
 
@@ -15,7 +15,7 @@ dep 'vim.src' do
     if @ruby_support 
       rvm_run "rvm install 1.9.2"
       rvm_run "rvm use 1.9.2"
-      shell("unalias ruby") if shell("alias").match(/^ruby=/)
+      shell("unalias ruby") if which("alias") and which("unalias") and shell("alias").match(/^ruby=/)
     end
     true
   end
