@@ -1,26 +1,20 @@
 require File.expand_path("../helpers/rvm.rb", __FILE__)
 
-dep 'rvm' do
-  requires 'sh is bash', 'rvm base', 'rvm globals', 'rvm default'
+# alias for "rvm configured"
+dep 'rvm' do 
+  requires 'rvm configured'
 end
 
-
-def current_rubies
-  out = rvm_run("rvm list rubies")
-  rubies = out.scan(/^[=> ]{3}([^ ]+) /).flatten
+# installs rvm with a user-defined ruby and user-defined global gems
+dep 'rvm configured' do
+  requires 'sh is bash', # sourcing rvm requires a "normal" shell, not s.th. like dash
+    'rvm installed',
+    'rvm default ruby is set'
+    'rvm defaults are installed'
 end
 
-dep 'rvm default' do
-  requires 'rvm base'
-  define_var :default_ruby, :choices => current_rubies, :message => "Which ruby do you what to use as default?"
-
-  met?{rvm_run("rvm current")[/system/] == nil}
-  meet do
-    rvm_run("rvm use #{var(:default_ruby)} --default")
-  end
-end
-
-dep 'rvm base' do
+# installs rvm
+dep 'rvm installed' do
   met? {
     "~/.rvm/scripts/rvm".p.file?
   }
@@ -30,7 +24,30 @@ dep 'rvm base' do
   }
 end
 
-dep 'rvm globals' do
+# ensure a default ruby is set 
+dep 'rvm default ruby is set' do
+  requires 'rvm installed'
+  define_var :default_ruby, :choices => current_rubies, :message => "Which ruby do you what to use as default?"
+  
+  met?{rvm_run("rvm current")[/system/] == nil}
+
+  meet do
+    while current_rubies.empty?
+      ruby = prompt_for_value "You need at least one ruby installed. Which one do you want to install?", :default => "1.9.2"
+      rvm_run "rvm install #{ruby}"
+    end
+    if current_rubies.length == 1
+      default_ruby = current_rubies[0]
+    else
+      default_ruby = var :default_ruby
+    end
+    
+    rvm_run("rvm use #{default_ruby} --default") 
+  end
+end
+
+# install default rubies and gems
+dep 'rvm defaults are installed' do
   requires 'rvm base'
 
   define_var :rubyies, :default => "ruby-1.9.2", :message => "which rubies do you want to create? (seperate by ,)"
