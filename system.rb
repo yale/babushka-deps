@@ -75,28 +75,4 @@ dep "oh-my-zsh" do
   end
 end
 
-dep "configured vim" do
-  on :osx do
-    requires "macvim"
-  end
-
-  requires "vim", "exuberant-ctags"
-
-  met? { "~/.vim/".p.exists? }
-  meet do
-    log_shell "cloning dotvim", "git clone http://github.com/rweng/dotvim.git ~/.vim"
-    log_shell "cloning vundle", "git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
-
-    # this doesn't work, blocks, so please do it manually
-    log_shell "installing vim bundles", "vim -u ~/.vim/vundle.vim -U NONE +'silent! BundleInstall' +q"
-
-    # log "please run the following command and press enter: " + "'vim -u ~/.vim/vundle.vim -U NONE +BundleInstall +q'"
-    # STDIN.gets
-
-    log_shell "building", "cd ~/.vim/bundle/Command-T/ruby/command-t;ruby extconf.rb;make"
-    shell "ln -sf ~/.vim/vimrc ~/.vimrc"
-    shell "ln -sf ~/.vim/gvimrc ~/.gvimrc"
-  end
-end
-
 
