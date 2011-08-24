@@ -1,7 +1,5 @@
-include Babushka::ShellHelpers
-
 def rvm_script
-    "source ~/.rvm/scripts/rvm;"
+    ". ~/.rvm/scripts/rvm;"
 end
 
 def rvm_run cmd
