@@ -1,4 +1,4 @@
-include ShellHelpers
+include Babushka::ShellHelpers
 
 def rvm_script
     "source ~/.rvm/scripts/rvm;"
