@@ -1,16 +1,37 @@
-dep 'rails init' do
-  define_var :app_name, :default => "rails_app", :message => "What is the name of the Rails app?"
-  define_var :ruby_version, :default => "1.9.2", :message => "Which version of ruby do you want to use?"
-  define_var :gemset, :default => "rails_app", :message => "Which gemset do you want to use?"
-  
+if "~/.rvm".p.directory?
+  $LOAD_PATH.unshift("~/.rvm/lib")
+  autoload :RVM, 'rvm'
+end
+
+dep 'rails new' do
+  requires 'rvm configured'
+
+  define_var :app, :message => "What is the name of the Rails app?"
+
   met? { 
-    File.exists? var(:app_name)
-    #TODO: check if the file really is a rails directory
+    var(:app).p.directory?
   }
 
-  def rvm?
-    rvm = `rvm -v`
-    not rvm.empty?
+  meet do
+    new_rvm_gemset if confirm("new rvm gemset named after app?", :default => 'yes')
+    
+    log_shell *(["gem update --system"] * 2)
+    log_shell *(["gem install rails --pre"] * 2)
+    log_shell *(["gem update"] * 2)
+    log_shell *(["rails new #{var :app}"] * 2)
+
+    cd var(:app) do
+      system "echo 'rvm use --create #{RVM.current.environment_name}' > .rvmrc"
+      remove_overhead_files if confirm("Remove overhead files?", :default => 'yes')
+      copy_examples if confirm("cp default files to .example?", :default => 'yes')
+      shell "bundle install"
+      git_init if confirm("git init?", :default => "yes")
+    end
+  end
+
+  def new_rvm_gemset
+    RVM.gemset_create var(:app)
+    RVM.gemset_use var(:app)
   end
 
   def remove_overhead_files
@@ -19,51 +40,14 @@ dep 'rails init' do
 
   def git_init
     shell "git init ."
-    shell "echo 'config/database.yml' >> .gitignore"
     shell "git add ."
     shell "git commit -m 'inital commit'"
   end
 
   def copy_examples
+    shell "echo 'config/database.yml' >> .gitignore"
     shell "cp config/database.yml config/database.example.yml"
   end
-
-  def rvm_use_cmd
-    "rvm use --create '#{var(:ruby_version)}@#{var :gemset}';"
-  end
-
-  def rvm_run cmd
-    shell "source ~/.rvm/scripts/rvm;" + 
-      rvm_use_cmd +
-      cmd
-  end
-
-  meet {
-    if rvm?
-      rvm_run "gem install rails --pre;" +
-        "rails new #{var :app_name}"
-
-      cd var(:app_name) do
-        shell "echo '#{rvm_use_cmd}' > .rvmrc"
-        remove_overhead_files
-        copy_examples
-        git_init
-      end
-    end
-  }
-end
-
-def rails_project? path
-  gemfile = File.expand_path "Gemfile", path
-  if gemfile.p.file?
-    grep("rails", gemfile) ? true : false
-  else
-    false
-  end
-end
-
-def gemfile_for project
-  File.expand_path "Gemfile", project
 end
 
 dep "rails - pry is used" do
@@ -84,8 +68,8 @@ dep "rails - pry is used" do
   }
 
   meet do
-     shell "cp '#{File.expand_path("../rails-project/pry.rb", __FILE__)}' '#{File.expand_path("config/initializers/pry.rb", var(:rails_project))}'"
-     @gem_line = grep(/['"]pry["']/, @gemfile)
-     append_to_file("gem 'pry'", @gemfile) unless @gem_line
+    shell "cp '#{File.expand_path("../rails-project/pry.rb.template", __FILE__)}' '#{File.expand_path("config/initializers/pry.rb", var(:rails_project))}'"
+    @gem_line = grep(/['"]pry["']/, @gemfile)
+    append_to_file("gem 'pry'", @gemfile) unless @gem_line
   end
 end
