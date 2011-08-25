@@ -72,7 +72,7 @@ end
 dep "removed vim" do
 	met? {!which("vim")}
 	meet do
-		while which ("vim") do
+		while which("vim") do
 			shell "rm -rf #{which "vim"}", :sudo => true
 		end
 	end
