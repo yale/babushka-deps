@@ -52,3 +52,40 @@ dep 'rails init' do
     end
   }
 end
+
+def rails_project? path
+  gemfile = File.expand_path "Gemfile", path
+  if gemfile.p.file?
+    grep("rails", gemfile) ? true : false
+  else
+    false
+  end
+end
+
+def gemfile_for project
+  File.expand_path "Gemfile", project
+end
+
+dep "rails - pry is used" do
+  var :rails_project, :default => ".", :message => "Which rails project do you want to pry-ify?", :type => :path
+
+  def pry_initializer_exists?
+    if rails_project? var(:rails_project) 
+      file = File.expand_path 'config/initializers/pry.rb', var(:rails_project)
+      file.p.exists?
+    else
+      unmeetable "Path is not a rails project"
+    end
+  end
+
+  met?{
+    @gemfile ||= gemfile_for(var(:rails_project))
+    pry_initializer_exists? and grep(/['"]pry["']/, @gemfile)
+  }
+
+  meet do
+     shell "cp '#{File.expand_path("../rails-project/pry.rb", __FILE__)}' '#{File.expand_path("config/initializers/pry.rb", var(:rails_project))}'"
+     @gem_line = grep(/['"]pry["']/, @gemfile)
+     append_to_file("gem 'pry'", @gemfile) unless @gem_line
+  end
+end
