@@ -27,9 +27,9 @@ dep 'vim.src' do
     @ruby_support = confirm("ruby support?")
     @clipboard_support = confirm("clipboard support?")
   
-		# on osx, ruby is assumed
-		on :linux do
-      requires 'ruby' if @ruby_support
+    # on osx, ruby is assumed
+    on :linux do
+      requires 'ruby-dev.managed' if @ruby_support
     end
 
     configure_args "--enable-clipboard=yes --enable-xterm_clipboard=yes" if @clipboard_support
