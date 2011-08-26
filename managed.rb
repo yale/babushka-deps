@@ -9,8 +9,8 @@ end
 de "ruby.managed"
 
 dep "bash.managed"
-dep 'ack', :template => 'managed'
-dep 'vim', :template => 'managed'
+dep 'ack.managed'
+dep 'vim.managed'
 dep 'exuberant-ctags', :template => 'managed' do
   provides 'ctags', 'ctags-exuberant'
 end

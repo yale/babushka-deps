@@ -51,7 +51,7 @@ dep "configured git" do
 end
 
 dep "configured zsh" do
-  requires 'rw dotfiles', 'benhoskings:zsh', "oh-my-zsh", 'ack'
+  requires 'rw dotfiles', 'benhoskings:zsh', "oh-my-zsh", 'ack.managed'
   set :username, shell("whoami")
 
   met?{"~/.zshrc".p.exists?}
