@@ -1,5 +1,5 @@
 dep "rw sys" do
-  requires 'configured zsh', "configured vim"
+  requires 'fixed admins can sudo', 'configured zsh', "configured vim"
   on :osx do
     requires "configured git", 'pow', "user in wheel group", "locate daemon running"
   end
