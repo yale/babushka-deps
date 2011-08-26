@@ -24,6 +24,7 @@ dep 'rails new' do
       system "echo 'rvm use --create #{RVM.current.environment_name}' > .rvmrc"
       remove_overhead_files if confirm("Remove overhead files?", :default => 'yes')
       copy_examples if confirm("cp default files to .example?", :default => 'yes')
+      # use_pry if confirm("use pry?", :default => 'yes')
       shell "bundle install"
       git_init if confirm("git init?", :default => "yes")
     end
