@@ -7,7 +7,7 @@ dep "configured vim" do
     log_shell "cloning vundle", "git clone http://github.com/gmarik/vundle.git ~/.vim/bundle/vundle"
 
     # this doesn't work, blocks, so please do it manually
-    log_shell "installing vim bundles", "vim -u ~/.vim/vundle.vim -U NONE +'silent! BundleInstall' +q"
+    log_shell "installing vim bundles", "vim -u ~/.vim/vundle.vim -U NONE +'silent! BundleInstall' +qall"
 
     # log "please run the following command and press enter: " + "'vim -u ~/.vim/vundle.vim -U NONE +BundleInstall +q'"
     # STDIN.gets
