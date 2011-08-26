@@ -29,7 +29,7 @@ dep 'vim.src' do
   
     # on osx, ruby is assumed
     on :linux do
-      requires 'ruby-dev.managed' if @ruby_support
+      requires 'ruby.managed', 'ruby-dev.managed' if @ruby_support
     end
 
     configure_args "--enable-clipboard=yes --enable-xterm_clipboard=yes" if @clipboard_support

@@ -5,6 +5,9 @@ end
 dep "ruby-dev.managed" do
   provides []
 end
+
+de "ruby.managed"
+
 dep "bash.managed"
 dep 'ack', :template => 'managed'
 dep 'vim', :template => 'managed'
