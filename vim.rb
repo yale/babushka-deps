@@ -1,7 +1,8 @@
 dep "configured vim" do
   requires "vim.src"
+
   on :osx do
-    requires "ctags.managed"
+    requires "ctags"
   end
   on :linux do
     requires "exuberant-ctags"
