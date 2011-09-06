@@ -1,5 +1,3 @@
-i
-
 dep "configured vim" do
   requires "vim.src"
   on :osx do
