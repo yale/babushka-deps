@@ -11,6 +11,9 @@ dep "ruby.managed"
 dep "bash.managed"
 dep 'ack.managed'
 dep 'vim.managed'
+
+dep "ctags", :template => 'managed'
+
 dep 'exuberant-ctags', :template => 'managed' do
   provides 'ctags', 'ctags-exuberant'
 end

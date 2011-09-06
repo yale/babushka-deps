@@ -1,5 +1,13 @@
+i
+
 dep "configured vim" do
-  requires "vim.src", "exuberant-ctags"
+  requires "vim.src"
+  on :osx do
+    requires "ctags.managed"
+  end
+  on :linux do
+    requires "exuberant-ctags"
+  end
 
   met? { "~/.vim/".p.exists? }
   meet do
