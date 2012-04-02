@@ -20,7 +20,8 @@ dep 'rvm installed' do
   }
 
   meet {
-    shell 'bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)'
+    shell 'curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer > rvm_install.sh && chmod -x rvm_install.sh'
+    shell 'bash -s stable < rvm_install.sh'
   }
 end
 
