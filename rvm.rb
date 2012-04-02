@@ -28,7 +28,6 @@ end
 # ensure a default ruby is set 
 dep 'rvm default ruby is set' do
   requires 'rvm installed'
-  define_var :default_ruby, :choices => current_rubies, :message => "Which ruby do you what to use as default?"
   
   met?{rvm_run("rvm current")[/system/] == nil}
 
@@ -42,13 +41,13 @@ dep 'rvm default ruby is set' do
       default_ruby = var :default_ruby
     end
     
-    rvm_run("rvm use #{default_ruby} --default") 
+    rvm_run("rvm use 1.8.7-p302 --default") 
   end
 end
 
 # install default rubies and gems
 dep 'rvm defaults are installed' do
-  requires 'rvm base'
+  requires 'rvm default ruby is set'
 
   define_var :rubyies, :default => "ruby-1.9.2", :message => "which rubies do you want to create? (seperate by ,)"
   define_var :gems, :default => "bundler, rake, gemedit, powder, pry", :message => "which gems do you want to install into global? (seperate by ,)"
