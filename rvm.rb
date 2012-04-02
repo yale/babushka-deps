@@ -34,8 +34,7 @@ dep 'rvm default ruby is set' do
 
   meet do
     while current_rubies.empty?
-      ruby = prompt_for_value "You need at least one ruby installed. Which one do you want to install?", :default => "1.9.2"
-      rvm_run "rvm install #{ruby}"
+      rvm_run "rvm install 1.8.7-p302"
     end
     if current_rubies.length == 1
       default_ruby = current_rubies[0]
