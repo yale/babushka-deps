@@ -23,6 +23,10 @@ dep 'rvm installed' do
     shell 'curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer > rvm_install.sh && chmod -x rvm_install.sh'
     shell 'bash -s stable < rvm_install.sh'
     shell 'rm rvm_install.sh'
+    
+    # Make sure RVM is always loaded by bash
+    profile = Dir["~/.bash_profile", "~/.bashrc"].first || "~/.bash_profile"
+    shell "echo 'if [[ -s \"$HOME/.rvm/scripts/rvm\" ]]  ; then source \"$HOME/.rvm/scripts/rvm\" ; fi' >> #{profile}"
   }
 end
 
