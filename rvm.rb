@@ -16,6 +16,7 @@ end
 # installs rvm
 dep 'rvm installed' do
   met? {
+  	shell "source ~/.profile"
     "~/.rvm/scripts/rvm".p.file?
   }
 
