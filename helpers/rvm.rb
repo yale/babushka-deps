@@ -1,5 +1,5 @@
 def rvm_script
-    "source ~/.profile"
+    "source ~/.profile;"
 end
 
 def rvm_installed?
