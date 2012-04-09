@@ -10,7 +10,6 @@ dep 'rvm configured' do
   requires 'sh is bash', # sourcing rvm requires a "normal" shell, not s.th. like dash
     'rvm installed',
     'rvm default ruby is set'
-    'rvm defaults are installed'
 end
 
 # installs rvm
